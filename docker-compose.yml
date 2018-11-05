@@ -1,0 +1,36 @@
+version: "3"
+services:
+  node0:
+    image: eosio/eos:latest
+    volumes:
+      - ./config:/config
+      - chain_data_0:/data
+    command:
+      - "/opt/eosio/bin/nodeos"
+      - "--config-dir"
+      - "/config"
+      - "--data-dir"
+      - "/data"
+      - "--hard-replay-blockchain"
+    networks:
+      poa:
+        ipv4_address: 172.16.0.10
+    ports:
+      - 8888:8888
+
+###############################################################
+# Network settings
+###############################################################
+networks:
+  poa:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.0.0/24
+
+###############################################################
+# Volumes
+###############################################################
+volumes:
+  chain_data_0: {}
